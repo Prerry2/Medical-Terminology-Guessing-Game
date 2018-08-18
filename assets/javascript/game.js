@@ -57,20 +57,18 @@ document.onkeyup = (function (event) {
 
         // Incorrect guess branch
         else {
-            guessesRemaining = guessesRemaining--;
+            guessesRemaining--;
             // If no more guesses, reset with losses increased
-            if (guessesRemaining == 0) {
+            if (guessesRemaining < 1) {
                 lossQuantity++;
                 pushLosses();
                 gameRestart();
-                return;
             }
             // If guesses remain, place guessed letter in guesses, end script
             else {
                 usedLetters.unshift(key);
                 pushGuessed();
                 pushGuessRemaining();
-                return;
             }
         }
     }
