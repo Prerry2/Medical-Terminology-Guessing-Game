@@ -6,7 +6,8 @@ var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
 var guessesRemaining = 8;
 var wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
 var chosenWordArray = [];
-var placeholderWordArray = [];
+// In honor of the sacrifices made to fix code, this placeholder array is so named:
+var moveLeftPlease = [];
 var displayedAnswer = '';
 var gameFinished = 1;
 var winQuantity = 0;
@@ -29,14 +30,14 @@ var gameStart = function () {
         wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
         chosenWordArray = wordChoice.split('');
         displayedAnswer = '';
-        placeholderWordArray = []
+        moveLeftPlease = []
         gameFinished = 0;
         pushGuessRemaining();
         pushGuessed();
         for (var i = 0; i < chosenWordArray.length; i++) {
-            placeholderWordArray.push(' _ ');
+            moveLeftPlease.push(' _ ');
         };
-        displayedAnswer = placeholderWordArray.join('');
+        displayedAnswer = moveLeftPlease.join('');
         // These quote marks above are REALLY CRUCIAL, for no apparent reason...
         pushAnswer();
         console.log(wordChoice)
@@ -67,17 +68,17 @@ document.onkeyup = (function (event) {
                     guessedLetter[o] = key
                     for (var j = 0; j < chosenWordArray.length; j++) {
                         if (chosenWordArray[j] == guessedLetter[j]) {
-                            placeholderWordArray[j] = guessedLetter[j]
+                            moveLeftPlease[j] = guessedLetter[j]
 
                         }
                         else {
-                            placeholderWordArray[j] = ' _ '
+                            moveLeftPlease[j] = ' _ '
                         }
                     }
-                    displayedAnswer = placeholderWordArray.join('');
+                    displayedAnswer = moveLeftPlease.join('');
                 }
                 pushAnswer()
-                if (placeholderWordArray.indexOf(' _ ') == '-1') {
+                if (moveLeftPlease.indexOf(' _ ') == '-1') {
                     winQuantity++
                     pushWins()
                     gameFinished = 1
