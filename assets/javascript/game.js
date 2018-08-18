@@ -10,9 +10,12 @@ var displayedAnswer = [];
 var gameFinished = 0;
 var winQuantity = 0;
 var lossQuantity = 0;
-var htmlGuessed = document.getElementById("guessed");
-var guessRemain = document.getElementById("guessremain");
-var pushWordToHtml = document.getElementById("word")
+var pushGuessed = function () { guessed.textContent = usedLetters; }
+var pushLosses = function () { losses.textContent = lossQuantity; }
+var pushGuessRemaining = function () { guessremain.textContent = guessesRemaining; }
+var pushWins = function () { wins.textContent = winQuantity; }
+var pushAnswer = function () { word.textContent = displayedAnswer; }
+
 
 // Restart function, used to start game and reset after win or loss
 var gameRestart = function () {
@@ -22,10 +25,12 @@ var gameRestart = function () {
     chosenWordArray = wordChoice.split('');
     displayedAnswer = [];
     gameFinished = 0;
+    pushGuessRemaining();
+    pushGuessed();
     for (var i = 0; i < chosenWordArray.length; i++) {
         displayedAnswer.push(' _ ');
     };
-    word.textContent = displayedAnswer;
+    pushAnswer();
 }
 
 // Game cannot run without being reset (oddly), so do not remove
@@ -35,37 +40,41 @@ gameRestart();
 document.onkeyup = (function (event) {
     // first the variables
     var key = event.key.toLowerCase();
-    var pushGuessed = function () { guessed.textContent = usedLetters; }
-    var pushLosses = function () { losses.textContent = lossQuantity; }
-
     // Check for the key input being a letter
     if (letters.indexOf(key) == '-1') {
         return;
     }
-    // Correct guess branch
-    else if (chosenWordArray.indexOf(key) != -1) {
-        usedLetters.unshift(key);
-        pushGuessed();
-        // more here for correct guess
-    }
-    
-    // Incorrect guess branch
-    else {
-        guessesRemaining = guessesRemaining--;
-        // If no more guesses, reset with losses increased
-        if (guessesRemaining = 0) {
-            lossQuantity++;
-            pushLosses();
-            gameRestart();
-            return;
-        }
-        // If guesses remain, place guessed letter in guesses, end script
-        else {
+    // Check if letter has already been guessed
+    else if (usedLetters.indexOf(key) == "-1") {
+
+        // Correct guess branch
+        if (chosenWordArray.indexOf(key) != -1) {
             usedLetters.unshift(key);
             pushGuessed();
-            return;
+
+            // more here for correct guess
+        }
+
+        // Incorrect guess branch
+        else {
+            guessesRemaining = guessesRemaining--;
+            // If no more guesses, reset with losses increased
+            if (guessesRemaining == 0) {
+                lossQuantity++;
+                pushLosses();
+                gameRestart();
+                return;
+            }
+            // If guesses remain, place guessed letter in guesses, end script
+            else {
+                usedLetters.unshift(key);
+                pushGuessed();
+                pushGuessRemaining();
+                return;
+            }
         }
     }
+    else { return; }
 
 })
 
