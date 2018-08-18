@@ -6,15 +6,12 @@ var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
 var guessesRemaining = 8;
 var wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
 var chosenWordArray = [];
-var displayedAnswer = [];
+var placeholderWordArray = [];
+var displayedAnswer = '';
 var gameFinished = 1;
 var winQuantity = 0;
+var word = document.getElementById("word")
 var lossQuantity = 0;
-// Technically a video, but set to be 1px by 1px, and only 4-6 seconds long
-var vidflatline = document.getElementById("flatline");
-var lossvid = function () { vidflatline.play(); };
-var vidheartbeat = document.getElementById("heartbeat");
-var winvid = function () { vidheartbeat.play(); };
 var pushGuessed = function () { guessed.textContent = usedLetters; }
 var pushLosses = function () { losses.textContent = lossQuantity; }
 var pushGuessRemaining = function () { guessremain.textContent = guessesRemaining; }
@@ -24,26 +21,29 @@ var pushAnswer = function () { word.textContent = displayedAnswer; }
 
 // Start / Restart function, used to start game and reset after win or loss
 var gameStart = function () {
-    if (gameFinished == 1){
-    usedLetters = [];
-    guessesRemaining = 8;
-    wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
-    chosenWordArray = wordChoice.split('');
-    displayedAnswer = [];
-    gameFinished = 0;
-    pushGuessRemaining();
-    pushGuessed();
-    for (var i = 0; i < chosenWordArray.length; i++) {
-        displayedAnswer.push(' _ ');
-    };
-    pushAnswer();}
+    if (gameFinished == 1) {
+        usedLetters = [];
+        guessesRemaining = 8;
+        wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
+        chosenWordArray = wordChoice.split('');
+        displayedAnswer = '';
+        gameFinished = 0;
+        pushGuessRemaining();
+        pushGuessed();
+        for (var i = 0; i < chosenWordArray.length; i++) {
+            placeholderWordArray.push(' _ ');
+        };
+        displayedAnswer = placeholderWordArray.join('');
+        // These quote marks above are REALLY CRUCIAL, for no apparent reason...
+        pushAnswer();
+    }
 }
+// Game cannot run without being started, so do not remove
+gameStart();
 
 
 // Game runtime code starts here
 document.onkeyup = (function (event) {
-    // Game cannot run without being started, so do not remove
-    gameStart();
     // first the variables
     var key = event.key.toLowerCase();
     // Check for the key input being a letter
@@ -54,36 +54,59 @@ document.onkeyup = (function (event) {
     else if (usedLetters.indexOf(key) == "-1") {
 
         // Correct guess branch
+        console.log(chosenWordArray.indexOf(key))
+        console.log(gameStart)
+        console.log(chosenWordArray)
         if (chosenWordArray.indexOf(key) != -1) {
             usedLetters.unshift(key);
             pushGuessed();
+            
+            // BROKEN CODE STARTS HERE
+            // for (var o = 0; o < chosenWordArray.length; o++) {
+            //     if (chosenWordArray[o] == key) {
+            //         guessedLetter[o] = key
+            //         for (var j = 0; j < chosenWordArray.length; j++) {
+            //             if (chosenWordArray[j] == guessedLetter[j]) {
+            //                 displayedWord[j] = guessedLetter[j]
+            //             }
+            //             else {
+            //             displayedWord[j] = ' _ '
+            //             }
+            //         }
+            //     }
+            // }
+            // word.textContent = displayedWord
+            // usedLetters.unshift(key)
+            // pushGuessed() += key
 
-            // more here for correct guess
-            // place correct guess in displayedAnswer and use pushAnswer
-            // check if all filled in, increment wins if so
-            // reset on win
         }
+        // more here for correct guess
+        // place correct guess in displayedAnswer and use pushAnswer
+        // check if all filled in, increment wins if so
+        // reset on win
+    
 
-        // Incorrect guess branch
+    // Incorrect guess branch
+    else {
+        guessesRemaining--;
+        // If no more guesses, reset with losses increased
+        if (guessesRemaining == 0) {
+            console.log("We got inside!")
+            lossQuantity++;
+            pushLosses();
+            gameFinished = 1;
+        }
+        // If guesses remain, place guessed letter in guesses, end script
         else {
-            guessesRemaining--;
-            // If no more guesses, reset with losses increased
-            // Seems to have broken somewhere...
-            if (guessesRemaining < 1) {
-                lossQuantity++;
-                pushLosses();
-                lossvid.play();
-                gameFinished = 1;
-            }
-            // If guesses remain, place guessed letter in guesses, end script
-            else {
-                usedLetters.unshift(key);
-                pushGuessed();
-                pushGuessRemaining();
-            }
+            usedLetters.unshift(key);
+            pushGuessed();
+            pushGuessRemaining();
         }
     }
-    else { return; }
+}
+else { return; }
+    gameStart();
+
 
 })
 
