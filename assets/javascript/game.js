@@ -39,6 +39,7 @@ var gameStart = function () {
         displayedAnswer = placeholderWordArray.join('');
         // These quote marks above are REALLY CRUCIAL, for no apparent reason...
         pushAnswer();
+        console.log(wordChoice)
     }
 }
 // Game cannot run without being started, so do not remove
@@ -57,7 +58,6 @@ document.onkeyup = (function (event) {
     else if (usedLetters.indexOf(key) == "-1") {
 
         // Correct guess branch
-        console.log(chosenWordArray)
         if (chosenWordArray.indexOf(key) != -1) {
             usedLetters.unshift(key);
             pushGuessed();
