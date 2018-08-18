@@ -7,7 +7,7 @@ var guessesRemaining = 8;
 var wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
 var chosenWordArray = [];
 var displayedAnswer = [];
-var gameFinished = 0;
+var gameFinished = 1;
 var winQuantity = 0;
 var lossQuantity = 0;
 // Technically a video, but set to be 1px by 1px, and only 4-6 seconds long
@@ -22,8 +22,9 @@ var pushWins = function () { wins.textContent = winQuantity; }
 var pushAnswer = function () { word.textContent = displayedAnswer; }
 
 
-// Restart function, used to start game and reset after win or loss
-var gameRestart = function () {
+// Start / Restart function, used to start game and reset after win or loss
+var gameStart = function () {
+    if (gameFinished == 1){
     usedLetters = [];
     guessesRemaining = 8;
     wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
@@ -35,14 +36,14 @@ var gameRestart = function () {
     for (var i = 0; i < chosenWordArray.length; i++) {
         displayedAnswer.push(' _ ');
     };
-    pushAnswer();
+    pushAnswer();}
 }
 
-// Game cannot run without being reset (oddly), so do not remove
-gameRestart();
 
 // Game runtime code starts here
 document.onkeyup = (function (event) {
+    // Game cannot run without being started, so do not remove
+    gameStart();
     // first the variables
     var key = event.key.toLowerCase();
     // Check for the key input being a letter
@@ -72,7 +73,7 @@ document.onkeyup = (function (event) {
                 lossQuantity++;
                 pushLosses();
                 lossvid.play();
-                gameRestart();
+                gameFinished = 1;
             }
             // If guesses remain, place guessed letter in guesses, end script
             else {
@@ -85,5 +86,6 @@ document.onkeyup = (function (event) {
     else { return; }
 
 })
+
 
 
