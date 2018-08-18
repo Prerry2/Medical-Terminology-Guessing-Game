@@ -58,12 +58,16 @@ document.onkeyup = (function (event) {
             pushGuessed();
 
             // more here for correct guess
+            // place correct guess in displayedAnswer and use pushAnswer
+            // check if all filled in, increment wins if so
+            // reset on win
         }
 
         // Incorrect guess branch
         else {
             guessesRemaining--;
             // If no more guesses, reset with losses increased
+            // Seems to have broken somewhere...
             if (guessesRemaining < 1) {
                 lossQuantity++;
                 pushLosses();

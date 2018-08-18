@@ -1,7 +1,5 @@
 Current problems:
-guesses not changing    FIXED!
 wins not showing / programmed
-losses not showing      FIXED!
 letters not popping into answer
 sounds need to be added NOPE! (give up?)
 Losses do not reset guesses and guessed letters as intended
