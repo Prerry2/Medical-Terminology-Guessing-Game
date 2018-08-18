@@ -77,14 +77,13 @@ document.onkeyup = (function (event) {
                     }
                     displayedAnswer = placeholderWordArray.join('');
                 }
-            word.textContent = placeholderWordArray
+                pushAnswer()
             }
 
 
             // BROKEN CODE ENDS HERE
         }
         // check if all filled in, increment wins if so
-        // Fix the comma bug, again!
 
     // Incorrect guess branch
     else {
