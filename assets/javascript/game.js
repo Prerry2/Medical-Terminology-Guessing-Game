@@ -29,6 +29,7 @@ var gameStart = function () {
         wordChoice = wordDictionary[Math.floor(Math.random() * wordDictionary.length)];
         chosenWordArray = wordChoice.split('');
         displayedAnswer = '';
+        placeholderWordArray = []
         gameFinished = 0;
         pushGuessRemaining();
         pushGuessed();
@@ -83,8 +84,7 @@ document.onkeyup = (function (event) {
             // BROKEN CODE ENDS HERE
         }
         // check if all filled in, increment wins if so
-        // reset on win the displayed _ _ _ s .... that is one FREAKY bug
-    
+        // Fix the comma bug, again!
 
     // Incorrect guess branch
     else {
