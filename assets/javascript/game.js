@@ -10,7 +10,7 @@ var placeholderWordArray = [];
 var displayedAnswer = '';
 var gameFinished = 1;
 var winQuantity = 0;
-var guessedLetter= [];
+var guessedLetter = [];
 guessedLetter.length = chosenWordArray.length
 var word = document.getElementById("word")
 var lossQuantity = 0;
@@ -62,7 +62,6 @@ document.onkeyup = (function (event) {
             usedLetters.unshift(key);
             pushGuessed();
 
-            // BROKEN CODE STARTS HERE
             for (var o = 0; o < chosenWordArray.length; o++) {
                 if (chosenWordArray[o] == key) {
                     guessedLetter[o] = key
@@ -72,42 +71,38 @@ document.onkeyup = (function (event) {
 
                         }
                         else {
-                        placeholderWordArray[j] = ' _ '
+                            placeholderWordArray[j] = ' _ '
                         }
                     }
                     displayedAnswer = placeholderWordArray.join('');
                 }
                 pushAnswer()
+                if (placeholderWordArray.indexOf(' _ ') == '-1') {
+                    winQuantity++
+                    pushWins()
+                    gameFinished = 1
+                }
             }
-
-
-            // BROKEN CODE ENDS HERE
         }
-        // check if all filled in, increment wins if so
 
-    // Incorrect guess branch
-    else {
-        guessesRemaining--;
-        // If no more guesses, reset with losses increased
-        if (guessesRemaining == 0) {
-            console.log("We got inside!")
-            lossQuantity++;
-            pushLosses();
-            gameFinished = 1;
-        }
-        // If guesses remain, place guessed letter in guesses, end script
+        // Incorrect guess branch
         else {
-            usedLetters.unshift(key);
-            pushGuessed();
-            pushGuessRemaining();
+            guessesRemaining--;
+            // If no more guesses, reset with losses increased
+            if (guessesRemaining == 0) {
+                console.log("We got inside!")
+                lossQuantity++;
+                pushLosses();
+                gameFinished = 1;
+            }
+            // If guesses remain, place guessed letter in guesses, end script
+            else {
+                usedLetters.unshift(key);
+                pushGuessed();
+                pushGuessRemaining();
+            }
         }
     }
-}
-else { return; }
+    else { return; }
     gameStart();
-
-
 })
-
-
-
