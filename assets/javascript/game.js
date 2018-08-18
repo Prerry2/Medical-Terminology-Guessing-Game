@@ -1,6 +1,6 @@
 // Dictionary for the hangman word choice
 var wordDictionary = ["abdominoplasty", "abdominal aeortic aneurysm", "acromegaly", "adenocarcinoma", "analgesia", "anemia", "anesthesia", "aneurysm", "atrophy", "bradycardia", "bronchitis", "carcinoma", "asystole", "cardiomegaly", "carditis", "cephalalgia", "cheiloschisis", "cheilosis", "cholecystectomy", "chondrodystrophy", "climacteric", "colic", "colitis", "craniotomy", "uranoplasty", "cryptorchidism", "cyanosis", "cystoplegia", "cystitis", "dehiscence", "odontalgia", "dermatitis", "diaphragm", "anaphylaxis", "hypovolemia", "hypoxia", "hyperkalemia", "hypokalemia", "hypothermia", "hypoglycemia", "hyperglycemia", "thrombosis", "thromboembolism", "epinephrine", "norepinephrine", "arrhythmia", "dysrhythmia", "ventricular fibrillation", "methylphenidate", "ibuprofen", "dyspnea", "diarrhea", "sertraline", "diazepam", "ethynol", "phenylephrine"];
-// var key = event.key;
+// List of Global variables for script to work
 var usedLetters = [];
 var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 var guessesRemaining = 8;
@@ -10,7 +10,11 @@ var displayedAnswer = [];
 var gameFinished = 0;
 var winQuantity = 0;
 var lossQuantity = 0;
+var htmlGuessed = document.getElementById("guessed");
+var guessRemain = document.getElementById("guessremain");
 var pushWordToHtml = document.getElementById("word")
+
+// Restart function, used to start game and reset after win or loss
 var gameRestart = function () {
     usedLetters = [];
     guessesRemaining = 8;
@@ -20,35 +24,49 @@ var gameRestart = function () {
     gameFinished = 0;
     for (var i = 0; i < chosenWordArray.length; i++) {
         displayedAnswer.push(' _ ');
-        };
+    };
     word.textContent = displayedAnswer;
 }
 
+// Game cannot run without being reset (oddly), so do not remove
+gameRestart();
 
+// Game runtime code starts here
+document.onkeyup = (function (event) {
+    // first the variables
+    var key = event.key.toLowerCase();
+    var pushGuessed = function () { guessed.textContent = usedLetters; }
+    var pushLosses = function () { losses.textContent = lossQuantity; }
 
-document.onkeyup = (function(event) {
-    var key = event.key;
-    var htmlGuessed = document.getElementById("guessed");
-    var guessRemain = document.getElementById("guessremain");
-    if (letters.indexOf(key.toLowerCase()) == '-1') {
+    // Check for the key input being a letter
+    if (letters.indexOf(key) == '-1') {
         return;
     }
+    // Correct guess branch
+    else if (chosenWordArray.indexOf(key) != -1) {
+        usedLetters.unshift(key);
+        pushGuessed();
+        // more here for correct guess
+    }
+    
+    // Incorrect guess branch
     else {
-        
-    }
-})
-// Filtering out numeric and special input to allow only lowercase letter inputs
-
-var inputCheck = function () {
-    if (letters.indexOf(playerInput) != -1) {
-        // game code goes here
-        if (playerInput.indexOf(wordChoice) != -1) {
-
+        guessesRemaining = guessesRemaining--;
+        // If no more guesses, reset with losses increased
+        if (guessesRemaining = 0) {
+            lossQuantity++;
+            pushLosses();
+            gameRestart();
+            return;
         }
+        // If guesses remain, place guessed letter in guesses, end script
         else {
-            guessesRemaining = guessesRemaining--;
             usedLetters.unshift(key);
+            pushGuessed();
+            return;
         }
     }
 
-}
+})
+
+

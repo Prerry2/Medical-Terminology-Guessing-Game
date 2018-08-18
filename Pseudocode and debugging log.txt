@@ -1,0 +1,8 @@
+Current problems:
+guesses not showing
+guesses not updating
+wins not showing?
+losses not showing?
+neither wins nor losses displaying
+letters not popping into answer
+sounds need to be added
