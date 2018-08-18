@@ -10,6 +10,8 @@ var placeholderWordArray = [];
 var displayedAnswer = '';
 var gameFinished = 1;
 var winQuantity = 0;
+var guessedLetter= [];
+guessedLetter.length = chosenWordArray.length
 var word = document.getElementById("word")
 var lossQuantity = 0;
 var pushGuessed = function () { guessed.textContent = usedLetters; }
@@ -54,36 +56,34 @@ document.onkeyup = (function (event) {
     else if (usedLetters.indexOf(key) == "-1") {
 
         // Correct guess branch
-        console.log(chosenWordArray.indexOf(key))
-        console.log(gameStart)
         console.log(chosenWordArray)
         if (chosenWordArray.indexOf(key) != -1) {
             usedLetters.unshift(key);
             pushGuessed();
-            
-            // BROKEN CODE STARTS HERE
-            // for (var o = 0; o < chosenWordArray.length; o++) {
-            //     if (chosenWordArray[o] == key) {
-            //         guessedLetter[o] = key
-            //         for (var j = 0; j < chosenWordArray.length; j++) {
-            //             if (chosenWordArray[j] == guessedLetter[j]) {
-            //                 displayedWord[j] = guessedLetter[j]
-            //             }
-            //             else {
-            //             displayedWord[j] = ' _ '
-            //             }
-            //         }
-            //     }
-            // }
-            // word.textContent = displayedWord
-            // usedLetters.unshift(key)
-            // pushGuessed() += key
 
+            // BROKEN CODE STARTS HERE
+            for (var o = 0; o < chosenWordArray.length; o++) {
+                if (chosenWordArray[o] == key) {
+                    guessedLetter[o] = key
+                    for (var j = 0; j < chosenWordArray.length; j++) {
+                        if (chosenWordArray[j] == guessedLetter[j]) {
+                            placeholderWordArray[j] = guessedLetter[j]
+
+                        }
+                        else {
+                        placeholderWordArray[j] = ' _ '
+                        }
+                    }
+                    displayedAnswer = placeholderWordArray.join('');
+                }
+            word.textContent = placeholderWordArray
+            }
+
+
+            // BROKEN CODE ENDS HERE
         }
-        // more here for correct guess
-        // place correct guess in displayedAnswer and use pushAnswer
         // check if all filled in, increment wins if so
-        // reset on win
+        // reset on win the displayed _ _ _ s .... that is one FREAKY bug
     
 
     // Incorrect guess branch
