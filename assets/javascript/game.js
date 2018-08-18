@@ -82,6 +82,7 @@ document.onkeyup = (function (event) {
                     winQuantity++
                     pushWins()
                     gameFinished = 1
+                    break
                 }
             }
         }
