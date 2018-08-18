@@ -10,6 +10,7 @@ var displayedAnswer = [];
 var gameFinished = 0;
 var winQuantity = 0;
 var lossQuantity = 0;
+var pushWordToHtml = document.getElementById("word")
 var gameRestart = function () {
     usedLetters = [];
     guessesRemaining = 8;
@@ -20,12 +21,13 @@ var gameRestart = function () {
     for (var i = 0; i < chosenWordArray.length; i++) {
         displayedAnswer.push(' _ ');
         };
+    word.textContent = displayedAnswer;
 }
+
 
 
 document.onkeyup = (function(event) {
     var key = event.key;
-    var word = document.getElementById("word");
     var htmlGuessed = document.getElementById("guessed");
     var guessRemain = document.getElementById("guessremain");
     if (letters.indexOf(key.toLowerCase()) == '-1') {
