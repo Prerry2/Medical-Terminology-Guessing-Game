@@ -3,4 +3,4 @@ guesses not changing    FIXED!
 wins not showing / programmed
 losses not showing      FIXED!
 letters not popping into answer
-sounds need to be added
+sounds need to be added Maybe fixed?

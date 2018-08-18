@@ -10,6 +10,11 @@ var displayedAnswer = [];
 var gameFinished = 0;
 var winQuantity = 0;
 var lossQuantity = 0;
+// Technically a video, but set to be 1px by 1px, and only 4-6 seconds long
+var vidflatline = document.getElementById("flatline");
+var lossvid = function () { vidflatline.play(); };
+var vidheartbeat = document.getElementById("heartbeat");
+var winvid = function () { vidheartbeat.play(); };
 var pushGuessed = function () { guessed.textContent = usedLetters; }
 var pushLosses = function () { losses.textContent = lossQuantity; }
 var pushGuessRemaining = function () { guessremain.textContent = guessesRemaining; }
@@ -62,6 +67,7 @@ document.onkeyup = (function (event) {
             if (guessesRemaining < 1) {
                 lossQuantity++;
                 pushLosses();
+                lossvid.play();
                 gameRestart();
             }
             // If guesses remain, place guessed letter in guesses, end script
