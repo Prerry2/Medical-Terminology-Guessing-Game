@@ -1,7 +1,0 @@
-Current problems:
-wins not showing / programmed
-letters not popping into answer
-sounds need to be added                                         NOPE! (give up?)
-Losses do not reset guesses and guessed letters as intended
-commas
-
